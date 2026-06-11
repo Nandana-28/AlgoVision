@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AlgoVision - Interactive Algorithm Visualizer</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Navigation -->
+        <nav class="navbar">
+            <div class="nav-brand">
+                <span class="logo-icon">🎨</span>
+                <span class="brand-text">AlgoVision</span>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="#" class="nav-link active" data-section="home">Home</a></li>
+                <li><a href="#" class="nav-link" data-section="sorting">Sorting</a></li>
+                <li><a href="#" class="nav-link" data-section="searching">Searching</a></li>
+                <li><a href="#" class="nav-link" data-section="graph">Graph</a></li>
+                <li><a href="#" class="nav-link" data-section="pathfinding">Pathfinding</a></li>
+                <li><a href="#" class="nav-link" data-section="about">About</a></li>
+            </ul>
+            <div class="nav-controls">
+                <button class="theme-toggle" id="themeToggle" title="Toggle Dark/Light Mode">
+                    <span class="theme-icon">🌙</span>
+                </button>
+            </div>
+        </nav>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            
+            <!-- HOME SECTION -->
+            <section id="home" class="section active">
+                <div class="hero">
+                    <div class="hero-content">
+                        <h1 class="hero-title">AlgoVision</h1>
+                        <p class="hero-subtitle">Visualize Algorithms Step by Step</p>
+                        <p class="hero-description">Master computer science algorithms through interactive, real-time animations</p>
+                        <div class="hero-buttons">
+                            <button class="btn btn-primary" onclick="navigateToSection('sorting')">Get Started</button>
+                            <button class="btn btn-secondary" onclick="navigateToSection('about')">Learn More</button>
+                        </div>
+                    </div>
+                    <canvas id="heroCanvas" class="hero-canvas"></canvas>
+                </div>
+
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon">📊</div>
+                        <h3>Sorting Algorithms</h3>
+                        <p>Visualize Bubble Sort, Selection Sort, Insertion Sort, Merge Sort, and Quick Sort with real-time animations</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🔍</div>
+                        <h3>Search Algorithms</h3>
+                        <p>Explore Linear Search and Binary Search with step-by-step execution and complexity analysis</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🔗</div>
+                        <h3>Graph Traversal</h3>
+                        <p>Interactive BFS and DFS visualization with custom graph editor and queue/stack display</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🗺️</div>
+                        <h3>Pathfinding</h3>
+                        <p>Dijkstra and A* algorithms on interactive grid with wall drawing and visualization</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">⚡</div>
+                        <h3>Performance Metrics</h3>
+                        <p>Track comparisons, swaps, execution time, and complexity analysis for each algorithm</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">📚</div>
+                        <h3>Educational Content</h3>
+                        <p>Comprehensive explanations, pseudocode, and complexity analysis for every algorithm</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SORTING SECTION -->
+            <section id="sorting" class="section">
+                <div class="section-header">
+                    <h2>Sorting Algorithms Visualizer</h2>
+                    <p>Watch sorting algorithms in action with detailed metrics and analysis</p>
+                </div>
+
+                <div class="visualizer-container">
+                    <!-- Controls -->
+                    <div class="controls-panel">
+                        <div class="control-group">
+                            <label for="sortAlgorithm">Select Algorithm:</label>
+                            <select id="sortAlgorithm" class="select-input">
+                                <option value="bubble">Bubble Sort</option>
+                                <option value="selection">Selection Sort</option>
+                                <option value="insertion">Insertion Sort</option>
+                                <option value="merge">Merge Sort</option>
+                                <option value="quick">Quick Sort</option>
+                            </select>
+                        </div>
+
+                        <div class="control-group">
+                            <label for="arraySize">Array Size: <span id="arraySizeValue">50</span></label>
+                            <input type="range" id="arraySize" min="10" max="200" value="50" class="slider">
+                        </div>
+
+                        <div class="control-group">
+                            <label for="sortSpeed">Animation Speed: <span id="speedValue">50</span>ms</label>
+                            <input type="range" id="sortSpeed" min="10" max="500" value="50" class="slider">
+                        </div>
+
+                        <div class="button-group">
+                            <button class="btn btn-control" id="generateSortArray">Generate New Array</button>
+                            <button class="btn btn-control btn-success" id="startSort">Start</button>
+                            <button class="btn btn-control btn-warning" id="pauseSort" disabled>Pause</button>
+                            <button class="btn btn-control btn-info" id="resumeSort" disabled>Resume</button>
+                            <button class="btn btn-control btn-danger" id="resetSort">Reset</button>
+                        </div>
+                    </div>
+
+                    <!-- Visualization Canvas -->
+                    <div class="canvas-wrapper">
+                        <canvas id="sortingCanvas" class="visualization-canvas"></canvas>
+                    </div>
+
+                    <!-- Metrics Panel -->
+                    <div class="metrics-panel">
+                        <div class="metric">
+                            <span class="metric-label">Comparisons:</span>
+                            <span class="metric-value" id="comparisons">0</span>
+                        </div>
+                        <div class="metric">
+                            <span class="metric-label">Swaps:</span>
+                            <span class="metric-value" id="swaps">0</span>
+                        </div>
+                        <div class="metric">
+                            <span class="metric-label">Execution Time:</span>
+                            <span class="metric-value" id="executionTime">0ms</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Complexity Info -->
+                <div class="info-panels">
+                    <div class="info-card">
+                        <h3>Algorithm Complexity</h3>
+                        <div id="complexityInfo">
+                            <div><strong>Best Case:</strong> <span id="bestCase">-</span></div>
+                            <div><strong>Average Case:</strong> <span id="avgCase">-</span></div>
+                            <div><strong>Worst Case:</strong> <span id="worstCase">-</span></div>
+                            <div><strong>Space Complexity:</strong> <span id="spaceCase">-</span></div>
+                        </div>
+                    </div>
+
+                    <div class="info-card">
+                        <h3>Algorithm Description</h3>
+                        <p id="algorithmDescription">Select an algorithm to see its description</p>
+                        <details>
+                            <summary>Pseudocode</summary>
+                            <pre id="pseudocode">Select an algorithm</pre>
+                        </details>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SEARCHING SECTION -->
+            <section id="searching" class="section">
+                <div class="section-header">
+                    <h2>Search Algorithms Visualizer</h2>
+                    <p>Explore how search algorithms find target values</p>
+                </div>
+
+                <div class="visualizer-container">
+                    <div class="controls-panel">
+                        <div class="control-group">
+                            <label for="searchAlgorithm">Select Algorithm:</label>
+                            <select id="searchAlgorithm" class="select-input">
+                                <option value="linear">Linear Search</option>
+                                <option value="binary">Binary Search</option>
+                            </select>
+                        </div>
+
+                        <div class="control-group">
+                            <label for="searchArraySize">Array Size: <span id="searchArraySizeValue">30</span></label>
+                            <input type="range" id="searchArraySize" min="10" max="100" value="30" class="slider">
+                        </div>
+
+                        <div class="control-group">
+                            <label for="targetValue">Target Value:</label>
+                            <input type="number" id="targetValue" placeholder="Enter value to search" class="input-field">
+                        </div>
+
+                        <div class="control-group">
+                            <label for="searchSpeed">Animation Speed: <span id="searchSpeedValue">100</span>ms</label>
+                            <input type="range" id="searchSpeed" min="10" max="500" value="100" class="slider">
+                        </div>
+
+                        <div class="button-group">
+                            <button class="btn btn-control" id="generateSearchArray">Generate Array</button>
+                            <button class="btn btn-control btn-success" id="startSearch">Search</button>
+                            <button class="btn btn-control btn-danger" id="resetSearch">Reset</button>
+                        </div>
+                    </div>
+
+                    <div class="canvas-wrapper">
+                        <canvas id="searchingCanvas" class="visualization-canvas"></canvas>
+                    </div>
+
+                    <div class="metrics-panel">
+                        <div class="metric">
+                            <span class="metric-label">Current Index:</span>
+                            <span class="metric-value" id="currentIndex">-</span>
+                        </div>
+                        <div class="metric">
+                            <span class="metric-label">Total Steps:</span>
+                            <span class="metric-value" id="totalSteps">0</span>
+                        </div>
+                        <div class="metric">
+                            <span class="metric-label">Status:</span>
+                            <span class="metric-value" id="searchStatus">Ready</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="info-panels">
+                    <div class="info-card">
+                        <h3>Search Complexity</h3>
+                        <div id="searchComplexityInfo">
+                            <div><strong>Time Complexity:</strong> <span id="searchTimeComplex">-</span></div>
+                            <div><strong>Space Complexity:</strong> <span id="searchSpaceComplex">-</span></div>
+                        </div>
+                    </div>
+                    <div class="info-card">
+                        <h3>Algorithm Info</h3>
+                        <p id="searchDescription">Select a search algorithm to see details</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- GRAPH SECTION -->
+            <section id="graph" class="section">
+                <div class="section-header">
+                    <h2>Graph Algorithms Visualizer</h2>
+                    <p>Create graphs and visualize BFS and DFS traversals</p>
+                </div>
+
+                <div class="visualizer-container">
+                    <div class="controls-panel">
+                        <div class="control-group">
+                            <label for="graphAlgorithm">Select Algorithm:</label>
+                            <select id="graphAlgorithm" class="select-input">
+                                <option value="bfs">Breadth First Search (BFS)</option>
+                                <option value="dfs">Depth First Search (DFS)</option>
+                            </select>
+                        </div>
+
+                        <div class="control-group">
+                            <label for="graphSpeed">Animation Speed: <span id="graphSpeedValue">200</span>ms</label>
+                            <input type="range" id="graphSpeed" min="50" max="1000" value="200" class="slider">
+                        </div>
+
+                        <div class="button-group">
+                            <button class="btn btn-control" id="addGraphNode">Add Node</button>
+                            <button class="btn btn-control" id="addGraphEdge">Connect Nodes</button>
+                            <button class="btn btn-control" id="clearGraphSelection">Clear Selection</button>
+                        </div>
+
+                        <div class="button-group">
+                            <button class="btn btn-control btn-success" id="startGraphAlgorithm">Start</button>
+                            <button class="btn btn-control btn-danger" id="resetGraph">Reset</button>
+                        </div>
+                    </div>
+
+                    <div class="canvas-wrapper">
+                        <canvas id="graphCanvas" class="visualization-canvas"></canvas>
+                        <p class="canvas-hint">Click on canvas to add nodes. Select two nodes and click "Connect Nodes" to create edges.</p>
+                    </div>
+
+                    <div class="metrics-panel">
+                        <div class="metric">
+                            <span class="metric-label">Nodes:</span>
+                            <span class="metric-value" id="nodeCount">0</span>
+                        </div>
+                        <div class="metric">
+                            <span class="metric-label">Edges:</span>
+                            <span class="metric-value" id="edgeCount">0</span>
+                        </div>
+                        <div class="metric">
+                            <span class="metric-label">Visited:</span>
+                            <span class="metric-value" id="visitedCount">0</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="info-panels">
+                    <div class="info-card">
+                        <h3>Traversal Order</h3>
+                        <div id="traversalOrder" class="traversal-display">No traversal started</div>
+                    </div>
+                    <div class="info-card">
+                        <h3>Algorithm Info</h3>
+                        <p id="graphDescription">Select an algorithm to see details</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- PATHFINDING SECTION -->
+            <section id="pathfinding" class="section">
+                <div class="section-header">
+                    <h2>Pathfinding Algorithms Visualizer</h2>
+                    <p>Find shortest paths using Dijkstra and A* algorithms</p>
+                </div>
+
+                <div class="visualizer-container">
+                    <div class="controls-panel">
+                        <div class="control-group">
+                            <label for="pathfindingAlgorithm">Select Algorithm:</label>
+                            <select id="pathfindingAlgorithm" class="select-input">
+                                <option value="dijkstra">Dijkstra's Algorithm</option>
+                                <option value="astar">A* Algorithm</option>
+                            </select>
+                        </div>
+
+                        <div class="control-group">
+                            <label for="gridSize">Grid Size: <span id="gridSizeValue">20</span></label>
+                            <input type="range" id="gridSize" min="10" max="50" value="20" class="slider">
+                        </div>
+
+                        <div class="control-group">
+                            <label>Drawing Mode:</label>
+                            <div class="radio-group">
+                                <input type="radio" id="drawWalls" name="drawMode" value="wall" checked>
+                                <label for="drawWalls">Draw Walls</label>
+                                <input type="radio" id="drawStart" name="drawMode" value="start">
+                                <label for="drawStart">Set Start</label>
+                                <input type="radio" id="drawEnd" name="drawMode" value="end">
+                                <label for="drawEnd">Set End</label>
+                            </div>
+                        </div>
+
+                        <div class="button-group">
+                            <button class="btn btn-control" id="clearPathfinding">Clear Grid</button>
+                            <button class="btn btn-control btn-success" id="startPathfinding">Find Path</button>
+                            <button class="btn btn-control btn-danger" id="resetPathfinding">Reset</button>
+                        </div>
+                    </div>
+
+                    <div class="canvas-wrapper">
+                        <canvas id="pathfindingCanvas" class="visualization-canvas"></canvas>
+                        <p class="canvas-hint">Click to draw on grid. White = Empty, Black = Wall, Blue = Start, Red = End</p>
+                    </div>
+
+                    <div class="metrics-panel">
+                        <div class="metric">
+                            <span class="metric-label">Visited Nodes:</span>
+                            <span class="metric-value" id="visitedNodes">0</span>
+                        </div>
+                        <div class="metric">
+                            <span class="metric-label">Path Length:</span>
+                            <span class="metric-value" id="pathLength">-</span>
+                        </div>
+                        <div class="metric">
+                            <span class="metric-label">Execution Time:</span>
+                            <span class="metric-value" id="pathfindingTime">0ms</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="info-panels">
+                    <div class="info-card">
+                        <h3>Algorithm Complexity</h3>
+                        <div id="pathfindingComplexityInfo">
+                            <div><strong>Time Complexity:</strong> <span id="pathfindingTimeComplex">-</span></div>
+                            <div><strong>Space Complexity:</strong> <span id="pathfindingSpaceComplex">-</span></div>
+                        </div>
+                    </div>
+                    <div class="info-card">
+                        <h3>Algorithm Description</h3>
+                        <p id="pathfindingDescription">Select an algorithm to see details</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ABOUT SECTION -->
+            <section id="about" class="section">
+                <div class="section-header">
+                    <h2>About AlgoVision</h2>
+                    <p>Learn about this project and computer science algorithms</p>
+                </div>
+
+                <div class="about-content">
+                    <div class="about-card">
+                        <h3>🎯 Project Goal</h3>
+                        <p>AlgoVision is an interactive educational platform designed to help students and developers understand complex algorithms through real-time, visual animations. By observing how algorithms work step-by-step, learners gain deeper insights into algorithm efficiency, decision-making processes, and practical applications.</p>
+                    </div>
+
+                    <div class="about-card">
+                        <h3>🚀 Features</h3>
+                        <ul>
+                            <li>5+ Sorting Algorithms with real-time visualization</li>
+                            <li>2 Search Algorithms with interactive demonstrations</li>
+                            <li>Graph traversal algorithms (BFS, DFS) with custom graphs</li>
+                            <li>Pathfinding algorithms (Dijkstra, A*) on interactive grids</li>
+                            <li>Detailed performance metrics and complexity analysis</li>
+                            <li>Educational content with pseudocode and explanations</li>
+                            <li>Dark/Light mode toggle</li>
+                            <li>Fully responsive design</li>
+                        </ul>
+                    </div>
+
+                    <div class="about-card">
+                        <h3>💻 Technology Stack</h3>
+                        <ul>
+                            <li>HTML5</li>
+                            <li>CSS3 with Glassmorphism & Gradients</li>
+                            <li>Vanilla JavaScript (No frameworks)</li>
+                            <li>Canvas API for animations</li>
+                            <li>Responsive Design for all devices</li>
+                        </ul>
+                    </div>
+
+                    <div class="about-card">
+                        <h3>📚 Algorithms Covered</h3>
+                        <div class="algo-grid">
+                            <div class="algo-item">
+                                <strong>Sorting:</strong> Bubble, Selection, Insertion, Merge, Quick
+                            </div>
+                            <div class="algo-item">
+                                <strong>Searching:</strong> Linear, Binary
+                            </div>
+                            <div class="algo-item">
+                                <strong>Graph Traversal:</strong> BFS, DFS
+                            </div>
+                            <div class="algo-item">
+                                <strong>Pathfinding:</strong> Dijkstra, A*
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="about-card">
+                        <h3>🎓 Learning Outcomes</h3>
+                        <p>By using AlgoVision, you will understand:</p>
+                        <ul>
+                            <li>How different algorithms approach the same problem</li>
+                            <li>Time and space complexity trade-offs</li>
+                            <li>When to use which algorithm for optimal performance</li>
+                            <li>Real-time algorithm behavior and decision-making</li>
+                            <li>Practical applications in software engineering</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Scripts -->
+    <script src="algorithms/bubbleSort.js"></script>
+    <script src="algorithms/selectionSort.js"></script>
+    <script src="algorithms/insertionSort.js"></script>
+    <script src="algorithms/mergeSort.js"></script>
+    <script src="algorithms/quickSort.js"></script>
+    <script src="algorithms/binarySearch.js"></script>
+    <script src="algorithms/linearSearch.js"></script>
+    <script src="algorithms/bfs.js"></script>
+    <script src="algorithms/dfs.js"></script>
+    <script src="algorithms/dijkstra.js"></script>
+    <script src="algorithms/astar.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
