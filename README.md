@@ -512,14 +512,6 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 - Community feedback and contributions
 - Computer Science educators and researchers
 
----
-
-## 📞 Support
-
-- Report bugs via GitHub Issues
-- Request features via GitHub Discussions
-- Check Documentation for FAQs
-- Review Algorithm explanations in-app
 
 ---
 
@@ -538,30 +530,13 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 
 ---
 
-## 📊 Project Stats
 
-```
-Total Commits: Ongoing
-Last Updated: 2024
-Lines of Code: 3000+
-Algorithms: 11+
-Browser Support: 95%+
-Mobile Responsive: Yes
-Production Ready: Yes
-```
 
----
 
-## 🌟 Star History
-
-If you found this project helpful, please consider giving it a star ⭐
-
----
 
 <div align="center">
 
 ### Made with ❤️ for Computer Science Learners
 
-**[⬆ back to top](#algov ision---interactive-algorithm-visualizer)**
 
 </div>
